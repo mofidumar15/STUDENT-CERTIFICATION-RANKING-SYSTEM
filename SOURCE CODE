@@ -1,0 +1,43 @@
+def get_student_data():
+    students = []
+    print("STUDENT DATA LISTING BY THEIR CERTIFICATION (WHEN YOU WANT TO FINISH JUST WRITE 'DONE'):")
+    
+    while True:
+        name = input("ENTER STUDENT NAME : (WHEN YOU WANT TO FINISH JUST WRITE 'DONE') :").strip()
+        if name.lower() == 'done':
+            break
+        
+        try:
+            certifications = int(input(f"Enter number of certifications completed by {name}: "))
+            students.append({"name": name, "certifications": certifications})
+        except ValueError:
+            print("Please enter a valid number for certifications.")
+    
+    return students
+
+def rank_students_by_certifications(students):
+  
+    sorted_students = sorted(students, key=lambda x: x['certifications'], reverse=True)
+    
+    for i, student in enumerate(sorted_students, start=1):
+        student['rank'] = i
+    return sorted_students
+
+def display_ranked_students(students):
+    print("\nTop Students Ranked by Certifications:")
+    print("{:<5} {:<20} {:<20}".format("Rank", "Name", "Certifications"))
+    print("-" * 50)
+    for student in students:
+        print("{:<5} {:<20} {:<20}".format(student['rank'], student['name'], student['certifications']))
+
+def main():
+    students = get_student_data()
+    if not students:
+        print("No data provided.")
+        return
+
+    ranked_students = rank_students_by_certifications(students)
+    display_ranked_students(ranked_students)
+
+if __name__ == "__main__":
+    main()
